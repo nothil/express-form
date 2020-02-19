@@ -1,0 +1,32 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+<title>visitor information</title>
+
+<style>
+    body {background-color: powderblue;}
+    .info input{padding: 10px 20px; width: 100%; margin: 10px 20px; text-align: center; }
+    form {width:200px;}
+    button { padding: 10px 20; position: relative;}
+    .container{padding: 10%; margin: 0px auto; background-color: whitesmoke; height: 50%;width: 50%;}
+            
+    </style>
+    </head> 
+    <body>
+        <div class="container">
+        <h1>Visitor information</h1>
+        <form  action="/action" method="post" id="form">
+            <div class="info">
+            <input type="text" placeholder="visitor name" name="name"><br>
+            <input type="text" placeholder="name of assistant" name="assistant"><br>
+            <input type="age"  placeholder="visitors age" name="age"><br>
+            <input type="date" placeholder="date of visit" name="date"><br>
+            <input type="time" placeholder="time of visit" name="time"><br>
+            <input type="textarea" placeholder="comments" name="comment"><br>
+                </div>
+            
+            <button type="submit" form="form">submit</button><br>
+        </form>
+    </div>
+    </body>
+</html>
