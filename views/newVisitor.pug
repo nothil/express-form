@@ -2,22 +2,13 @@ html(lang="en")
    head
       meta(charset="UTF-8")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
-      title 
+      title captured
+      
    body
-
-   
-   form(action="/action", method="GET" id="form")
-
    h1.center.align Thank you for the info 
 
-   thead 
-   th visitor name
-   th assistant name
-   th visitors age
-   th date of visit
-   th time of visit
-   th comments
+   p #{id}
+   each visitor in visitors
+      p visitor
 
-   tr
-
-    td {}
+       

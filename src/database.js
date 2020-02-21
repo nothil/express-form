@@ -44,8 +44,9 @@ const addNewVisitor = async (name, age, date, time, assistant, comment) => {
           'INSERT INTO VISITORS(visitor_name,visitors_age,date_of_visit,time_of_visit,assistant_name,comments) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
             [name,age,date,time,assistant,comment]       
       )
-       console.log(query.rows)
-       console.log('data saved')
+      console.log(query.rows[0].id)
+       return query.rows[0].id;
+       
        
     }catch(e) {
         console.log(e);
@@ -53,5 +54,20 @@ const addNewVisitor = async (name, age, date, time, assistant, comment) => {
     };
 };
 
-createTable();
-module.exports = {addNewVisitor, createTable};
+const viewVisitor = async () => {
+    try{
+       const query = await pool.query(
+          `
+            SELECT * FROM VISITORS WHERE ID=${3}
+          ;`
+      )
+       console.log(query.rows)
+       console.log('viewed successfully')
+
+    }catch(e) {
+        console.log(e);
+
+    };
+};
+
+module.exports = {addNewVisitor, createTable, viewVisitor};

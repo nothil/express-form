@@ -1,9 +1,10 @@
-const {addNewVisitor,createTable} = require('./database')
+const {addNewVisitor,createTable,viewVisitor} = require('./database')
+const visitors = require('./api')
 const express = require('express')
-const app = express()
+const app = express() //init app
 const path = require('path');
 
-app.use(express.urlencoded());
+app.use(express.urlencoded()); //load view engine
 app.use('/', express.static(__dirname + '/'));
 app.set('view engine', 'pug')  
 
@@ -11,8 +12,6 @@ app.set('view engine', 'pug')
 //rendering the form to host 
 app.get('/new_Visitor', (req, res) =>{ 
     res.sendFile('${_dirname} /index.html')})
-
-
 
 // creating the table
  
@@ -27,12 +26,14 @@ createTable();
      const time_of_visit = req.body.time;
      const date_of_visit =req.body.date;
      const comments =req.body.comment;
-     console.log(visitor);
-     addNewVisitor(visitor, visitors_age, date_of_visit, time_of_visit, assistant_name,comments);
-     res.render('newVisitor')
-     res.end();
- });
-    
+     const id = addNewVisitor(visitor, visitors_age, date_of_visit, time_of_visit, assistant_name,comments);
+     res.render('newVisitor',{visitors: req.body,
+        id: id})
+    res.end();
+  });
+ 
+
+
 
 
 app.listen(3000, () => console.log(` app listening on port ${3000}!`));
