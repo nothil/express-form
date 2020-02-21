@@ -1,17 +1,17 @@
-var Request = require("request");
+const axios = require("axios");
+const fixture = require('./fixture');
 
 describe("Server", () => {
-    var server;
+    var html;
     beforeAll(() => {
-        server = require("../app");
-    });
-    afterAll(() => {
         
     });
+    
     describe("GET /new_visitor", () => {
         var data = {};
         beforeAll((done) => {
-            Request.get("http://localhost:3000/", (error, response, body) => {
+          
+            axios.get("http://127.0.0.1:8080/new-visitor", (error, response, body) => {
                 data.status = response.statusCode;
                 data.body = body;
                 done();
@@ -22,7 +22,7 @@ describe("Server", () => {
     describe("GET /action", () => {
         var data = {};
         beforeAll((done) => {
-            Request.get("http://localhost:3000/action", (error, response, body) => {
+            axios.post("http://localhost:3000/action", (error, response, body) => {
                 data.status = response.statusCode;
                 data.body = JSON.parse(body);
                 done();
