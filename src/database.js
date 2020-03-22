@@ -1,12 +1,13 @@
-const Pool  = require('pg').Pool;
+const dotenv = require('dotenv').config();
+const Pool = require("pg").Pool;
+const pool = new Pool();
 
-const pool = new Pool({
-    user: 'user' ,
-    host:'localhost',
-    database: 'db',
-    password: 'pass',
-    port: 5432
-})
+pool.connect((err,res)=>{
+	if(err){
+		console.log(err)
+	}console.log(res);
+});
+
 
 pool.connect( (err, res)=>{
     if (err ) console.log(err)
