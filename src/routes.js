@@ -1,43 +1,67 @@
-const {addNewVisitor,createTable,viewVisitor} = require('./database')
-const visitors = require('./api')
-const express = require('express')
-const app = express() //init app
-const path = require('path');
-var bodyParser = require('body-parser')
+const {addNewVisitor,createTable,listVisitor,deleteVisitor} = require('./database');
 
-//app.use(express.urlencoded()); //load view engine
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/', express.static(__dirname + '/'));
-app.set('view engine', 'pug')  
+const express = require('express');
+const app = express();
+const path = require('path');
+const cors = require('cors')
+
+
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded());
+
+
+app.use('/single-page-app', express.static(__dirname + '/'));
+
 
 
 //rendering the form to host 
-app.get('/new_Visitor', (req, res) =>{ 
-  res.sendFile('${_dirname} /index.html')})
+app.get('/single-page-app', (req, res) =>{
+  return res.sendFile('index.html')
+});
 
 // creating the table
  
 createTable();
 
 // post which sends to database
- app.post('/action', async (req, res) =>{
+ app.post('/newVisitor', async (req, res) =>{
      console.log(req.body);
-     const visitor = req.body.name;
+     const name = req.body.name;
      const assistant_name = req.body.assistant;
-     const visitors_age = req.body.age;
-     const time_of_visit = req.body.time;
+     const visitors_age = parseInt(req.body.age, 10);
      const date_of_visit =req.body.date;
+     const time_of_visit = req.body.time;
+
      const comments =req.body.comment;
-     const id = await addNewVisitor(visitor, visitors_age, date_of_visit, time_of_visit, assistant_name,comments);
-     res.render('newVisitor',{visitor: req.body.name,
-                               assistant_name: req.body.assistant,
-                               visitors_age: req.body.age, 
-                               time_of_visit: req.body.time,
-                               date_of_visit: req.body.date,
-                               comments: req.body.comment,
-                                id: id})
-    res.end();
+
+     const visitors = await addNewVisitor(name, visitors_age, date_of_visit, time_of_visit, assistant_name,comments);
+
+
+
   });
+
+
+
+
+app.get('/viewAllVisitors', async(req, res) =>{
+    const allVisitors = await listVisitor()
+
+
+    res.status(200).json({
+        status: 'ok',
+        visitors: allVisitors
+    });
+
+})
+
+app.delete('/deleteVisitor/:id', async(req, res) =>{
+    const visitors = await deleteVisitor(req.params.id);
+    res.sendFile(JSON.stringify(visitors))
+    res.end();
+
+})
+
 
 
 
